@@ -230,7 +230,7 @@ function recalcularTotais(parcelas, datasVencimento, desagios, valoresDescontado
             break;
         case "PARANÁ":
             tac = valorLiquidoFinal
-	    valorMeta = tac*0.73
+	    valorMeta = tac*0.6956
             break;     
     }
 	const valorAtualParcelas = parcelasSelecionadas.reduce((total, parcela) => total + parcela, 0);	
