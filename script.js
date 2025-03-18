@@ -241,13 +241,13 @@ function recalcularTotais(parcelas, datasVencimento, desagios, valoresDescontado
     colMiddle.innerHTML = `
         <h2>Resultados:</h2>
         <div class="resultado">
-            <p>Valor meta: <strong>R$ ${valorMeta.toFixed(2)}</strong></p>
+            <p>Valor meta: R$ ${valorMeta.toFixed(2)}</p>
         </div>
         <div class="resultado">
-            <p>IOF total: <strong>R$ ${iofTotal.toFixed(2)}</strong></p>
+            <p>IOF total: R$ ${iofTotal.toFixed(2)}</p>
         </div>
 	<div class="total">
-            <p>Total antecipado: <strong>R$ ${valorAtualParcelas.toFixed(2)}</strong></p>
+            <p>Total antecipado: R$ ${valorAtualParcelas.toFixed(2)}</p>
         </div>
         <div class="resultado">
             <p><big>Valor Liberado: <strong>R$ ${tac.toFixed(2)}</strong></big></p>
