@@ -1,4 +1,5 @@
 // Função principal para capturar e processar as parcelas
+var consultas = 0
 function capturarParcelas() {
     // Pega o valor do textarea
     const inputValores = document.getElementById("parcelasInput").value;
@@ -62,8 +63,10 @@ function capturarParcelas() {
     // Calcula o valor descontado de cada parcela
     const valoresDescontados = parcelas.map((parcela, index) => parcela / desagios[index]);
 
+    consultas++;
     // Exibe os valores na lista com as datas de vencimento e deságios
     exibirParcelas(parcelas, datasVencimento, desagios, valoresDescontados, taxaAnual, taxaDia);
+    console.log(consultas);
 }
 
 // Função para calcular a taxa anual (a.a.)
