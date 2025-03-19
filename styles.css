@@ -22,6 +22,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(128, 0, 128, 0.3);
     max-width: 1800px;
+    max-height: 700px;
     width: 100%;
     animation: fadeIn 1s ease-in-out;
 }
@@ -55,6 +56,7 @@ p {
     border-radius: 10px;
     border: 1px solid #444;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-height: 500px;
 }
 
 .col-left:hover, .col-middle:hover, .col-right:hover, .col-history:hover {
@@ -64,6 +66,13 @@ p {
 
 .col-middle {
     flex: 2;
+}
+
+.col-left {
+    flex: 2;
+    max-weight: 1200px;
+    overflow-y: auto;
+
 }
 
 .input-group {
