@@ -128,7 +128,7 @@ function exibirParcelas(parcelas, datasVencimento, desagios, valoresDescontados,
     listaParcelas.innerHTML = ""; // Limpa a lista antes de adicionar novos itens
 
     // Adiciona cada parcela à lista com a data de vencimento e deságio
-    parcelas.forEach((parcela, index) => {
+    parcelas.slice(0,10).forEach((parcela, index) => {
         const itemLista = document.createElement("li");
 
         // Texto da parcela
