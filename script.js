@@ -8,7 +8,7 @@ function capturarParcelas() {
 
 
     // Extrai o mês da parcela direto do textarea
-    const mesVenc = (() => {
+    const mesNascimento = (() => {
         const data = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/)[0];
         const partes = data.split('/');
       
@@ -54,10 +54,6 @@ function capturarParcelas() {
             taxaJurosInput = 1.8;
 
     }   
-    // Define mesVenc para a variavel antiga
-    const mesNascimento = mesVenc
-
-
     const taxaJurosMensal = parseFloat(taxaJurosInput) / 100; // Converte para decimal
     
     // Calcula a taxa anual (a.a.)
