@@ -1,11 +1,33 @@
 // Função principal para capturar e processar as parcelas
-var consultas = 0
 function capturarParcelas() {
     // Pega o valor do textarea
     const inputValores = document.getElementById("parcelasInput").value;
 
     // Extrai os valores que começam com "R$" usando uma expressão regular
     const valores = inputValores.match(/R\$\s*\d{1,6}(?:\.\d{3})*(?:,\d{2})?/g);
+
+
+    // Extrai o mês da parcela direto do textarea
+    const mesVenc = (() => {
+        const data = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/)[0];
+        const partes = data.split('/');
+      
+        if (partes.length === 2) {
+          // Formato MM/YYYY
+          let mes = parseInt(partes[0]);
+          let ano = parseInt(partes[1]);
+      
+          mes += 1; // Adiciona 1 mês
+          if (mes > 12) {
+            mes = 1; // Volta para janeiro
+          }
+      
+          return mes; // Retorna o mês ajustado
+        } else {
+          // Formato DD/MM/YYYY
+          return parseInt(partes[1]); // Retorna o mês original
+        }
+      })();
 
     // Verifica se há valores extraídos
     if (!valores) {
@@ -18,18 +40,8 @@ function capturarParcelas() {
         // Remove "R$" e espaços, depois remove pontos e substitui vírgula por ponto
         return parseFloat(valor.replace(/R\$|\s/g, '').replace(/\./g, '').replace(',', '.'));
     });
-
-    // Pega o mês de nascimento selecionado
-    const mesNascimento = parseInt(document.getElementById("mesNascimento").value);
-
-    // Verifica se o mês é válido
-    if (isNaN(mesNascimento) || mesNascimento < 1 || mesNascimento > 12) {
-        alert("Por favor, selecione um mês de nascimento válido.");
-        return;
-    }
-
     
-
+    // Pega a tabela Selecionada
     const tabela = document.getElementById("tabela").value
 
     // Muda a taxa mensal por tabela
@@ -42,12 +54,12 @@ function capturarParcelas() {
             taxaJurosInput = 1.8;
 
     }   
+    // Define mesVenc para a variavel antiga
+    const mesNascimento = mesVenc
+
 
     const taxaJurosMensal = parseFloat(taxaJurosInput) / 100; // Converte para decimal
-    console.log(tabela)
-    console.log(taxaJurosMensal)
-
-
+    
     // Calcula a taxa anual (a.a.)
     const taxaAnual = calcularTaxaAnual(taxaJurosMensal);
 
@@ -62,11 +74,8 @@ function capturarParcelas() {
 
     // Calcula o valor descontado de cada parcela
     const valoresDescontados = parcelas.map((parcela, index) => parcela / desagios[index]);
-
-    consultas++;
     // Exibe os valores na lista com as datas de vencimento e deságios
     exibirParcelas(parcelas, datasVencimento, desagios, valoresDescontados, taxaAnual, taxaDia);
-    console.log(consultas);
 }
 
 // Função para calcular a taxa anual (a.a.)
