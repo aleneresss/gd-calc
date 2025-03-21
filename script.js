@@ -225,7 +225,7 @@ function recalcularTotais(parcelas, datasVencimento, desagios, valoresDescontado
 	    valorMeta = tac*0.68
             break;
         case "MONACO":
-            tac = valorLiquidoFinal*0.8148
+            tac = valorLiquidoFinal*0.815
 	    valorMeta = tac*0.90
             break;
         case "GOLD POWER":
