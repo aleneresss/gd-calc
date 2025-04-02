@@ -248,6 +248,7 @@ function recalcularTotais(parcelas, datasVencimento, desagios, valoresDescontado
     const colMiddle = document.querySelector(".col-middle");
     colMiddle.innerHTML = `
         <h2>Resultados:</h2>
+	<br>
         <div class="resultado">
             <p>Valor meta: R$ ${valorMeta.toFixed(2)}</p>
         </div>
