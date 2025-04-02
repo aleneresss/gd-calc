@@ -249,7 +249,7 @@ function recalcularTotais(parcelas, datasVencimento, desagios, valoresDescontado
     colMiddle.innerHTML = `
         <h2>Resultados:</h2>
         <div class="resultado">
-            <p><br>Valor meta: R$ ${valorMeta.toFixed(2)}</p>
+            <p>Valor meta: R$ ${valorMeta.toFixed(2)}</p>
         </div>
         <div class="resultado">
             <p>IOF total: R$ ${iofTotal.toFixed(2)}</p>
