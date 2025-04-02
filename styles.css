@@ -266,40 +266,62 @@ input:checked + .slider:before {
     background: #9d00ff;
 }
 
-/* Efeitos extras */
 .resultado {
-    background-color: #0d0d0d;
+    background-color: #120827;
+    border: 1px solid #2a0a5a;  
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 15px;
-    border: 1px solid #4b0082;
 }
 
 .resultado p {
-    color: #e0e0e0;
-    margin-bottom: 0;
-}
-
-.total {
-    background-color: #1a0033;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #9d00ff;
-}
-
-.total p {
-    color: #fff;
+    color: #f0e6ff;
     font-weight: bold;
     margin-bottom: 0;
 }
 
+.total {
+    background-color: #120827; 
+    border: 1px solid #2a0a5a;  
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.liberado {
+    background-color: #1e0037;
+    border: 1px solid #6a1b9a;  
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+
+.total p, .liberado p {
+    color: #f0e6ff;
+    margin-bottom: 0;
+}
+
+
 big {
     font-size: 18px;
-    color: #bb86fc;
+    color: #bb86fc; 
 }
 
 strong {
-    color: #9d00ff;
+    color: #9d00ff; 
     font-weight: 600;
+}
+
+
+.liberado::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.liberado:hover {
+    box-shadow: 0 0 15px rgba(157, 0, 255, 0.3);
+    transition: box-shadow 0.3s ease;
 }
