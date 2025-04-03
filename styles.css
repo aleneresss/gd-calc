@@ -284,6 +284,7 @@ input:checked + .slider:before {
     background-color: #120827; 
     border: 1px solid #2a0a5a;  
     border-radius: 8px;
+    font-weight: bold;
     padding: 15px;
     margin-bottom: 15px;
 }
