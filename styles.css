@@ -325,6 +325,7 @@ strong {
     font-family: Century Gothic;
 }
 
+
 .liberado::after {
     content: "";
     display: block;
