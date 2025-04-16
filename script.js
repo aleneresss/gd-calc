@@ -80,7 +80,7 @@ const tabelasConfig = {
       checkbox.addEventListener('change', function() {
         const index = parseInt(this.dataset.index);
         document.querySelectorAll('.switch input').forEach((cb, i) => {
-          cb.checked = this.checked ? (i <= index) : (i > index);
+          cb.checked = this.checked ? (i <= index) : (i < index);
         });
         recalcularTotais(parcelas, valoresDescontados, config, datasVencimento);
       });
