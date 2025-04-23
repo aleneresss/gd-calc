@@ -118,9 +118,15 @@ const tabelasConfig = {
   
     document.querySelector(".col-middle").innerHTML = `
       <h2>Resultados:</h2>
-      <div class="resultado"><p>Valor meta: R$ ${valorMeta.toFixed(2)}</p></div>
-      <div class="resultado"><p>IOF total: R$ ${iofTotal.toFixed(2)}</p></div>
-      <div class="total"><p>Total antecipado: R$ ${parcelasSelecionadas.reduce((a, b) => a + b, 0).toFixed(2)}</p></div>
-      <div class="liberado"><p><big>Valor Liberado: <strong>R$ ${tac.toFixed(2)}</strong></big></p></div>
+      <div class="resultado"><p>Valor meta: ${brl(valorMeta)}</p></div>
+      <div class="resultado"><p>IOF total: ${brl(iofTotal)}</p></div>
+      <div class="total"><p>Total antecipado: ${brl(parcelasSelecionadas.reduce((a, b) => a + b, 0))}</p></div>
+      <div class="liberado"><p><big>Valor Liberado: <strong>${brl(tac)}</strong></big></p></div>
     `;
   }
+
+
+function brl(float) {
+    let brl = float.toLocaleString('pt-br', {style: 'currency, currency:brl'});
+    return brl;
+}
