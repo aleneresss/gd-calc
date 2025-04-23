@@ -67,7 +67,7 @@ const tabelasConfig = {
     const listaParcelas = document.getElementById("listaParcelas");
     listaParcelas.innerHTML = parcelas.map((p, i) => `
       <li>
-        <span>Parcela ${i+1}: R$ ${p.toFixed(2)} - Vencimento: ${datasStr[i] || "N/A"}</span>
+        <span>Parcela ${i+1}: R$ ${brl(p)} - Vencimento: ${datasStr[i] || "N/A"}</span>
         <label class="switch">
           <input type="checkbox" checked data-index="${i}">
           <span class="slider"></span>
