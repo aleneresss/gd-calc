@@ -155,3 +155,23 @@ function brl(float) {
         let brl = float.toLocaleString('pt-br',{style: 'currency', currency: 'brl'});
         return brl
 }
+
+  const CHECK_INTERVAL = 30000; // 30 segundos
+
+  async function checkForUpdate() {
+    try {
+      const res = await fetch('/version.txt', { cache: 'no-store' });
+      const newVersion = await res.text();
+
+      if (window.currentVersion && window.currentVersion.trim() !== newVersion.trim()) {
+        console.log('🚀 Nova versão detectada. Recarregando...');
+        location.reload();
+      }
+
+      window.currentVersion = newVersion;
+    } catch (e) {
+      console.error('Erro ao verificar versão:', e);
+    }
+  }
+
+  setInterval(checkForUpdate, CHECK_INTERVAL);
