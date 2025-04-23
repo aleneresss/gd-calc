@@ -125,6 +125,7 @@ const tabelasConfig = {
     `;
   }
 
+
 function brl(float) {
     let brl = float.toLocaleString('pt-br', {style: 'currency', currency:'brl'});
     return brl;
