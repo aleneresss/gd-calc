@@ -106,9 +106,8 @@ function recalcularTotais(parcelas, valoresDescontados, config, datasVencimento)
         const dataVenc = datasSelecionadas[i];
         const dias = Math.ceil((dataVenc - hoje) / (1000 * 60 * 60 * 24));
 
-        // IOF: 0,38% + 0,0082% ao dia (máximo de 3%)
-        const iofDiario = Math.min(0.000082 * dias, 0.03);
-        const iofTotal = (0.0038 + iofDiario) * valor;
+        const limitedias = Math.min(dias,365);
+        const iofTotal = valor*0.0038+valor*0.000082*limitedias;
 
         return total + iofTotal;
     }, 0);
@@ -155,23 +154,3 @@ function brl(float) {
         let brl = float.toLocaleString('pt-br',{style: 'currency', currency: 'brl'});
         return brl
 }
-
-  const CHECK_INTERVAL = 30000; // 30 segundos
-
-  async function checkForUpdate() {
-    try {
-      const res = await fetch('/version.txt', { cache: 'no-store' });
-      const newVersion = await res.text();
-
-      if (window.currentVersion && window.currentVersion.trim() !== newVersion.trim()) {
-        console.log('🚀 Nova versão detectada. Recarregando...');
-        location.reload();
-      }
-
-      window.currentVersion = newVersion;
-    } catch (e) {
-      console.error('Erro ao verificar versão:', e);
-    }
-  }
-
-  setInterval(checkForUpdate, CHECK_INTERVAL);
