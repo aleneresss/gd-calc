@@ -1,7 +1,7 @@
 const tabelasConfig = {
     "PARANÁ TAC": { taxa: 1.79, calcTac: (v) => aplicarAlíquotaPtac(v), calcMeta: (t) => t * 0.6956 }, 
     "PARANÁ": { taxa: 1.79, calcTac: (v) => v, calcMeta: (t) => t * 0.6956 },
-    "SENNA": { taxa: 1.8, calcTac: (v) => v * 0.772, calcMeta: (t) => t * 1.10 },
+    "SENNA": { taxa: 1.8, calcTac: (v, e) => v - (e / (100/22)), calcMeta: (t) => t * 1.10 },
     "PRIME": { taxa: 1.8, calcTac: (v) => v - 70, calcMeta: (t) => t * 0.68 },
     "MONACO": { taxa: 1.8, calcTac: (v) => v * 0.815, calcMeta: (t) => t * 0.90 },
     "GOLD POWER": { taxa: 1.8, calcTac: (v) => v * 0.85, calcMeta: (t) => t * 0.80 },
@@ -115,13 +115,12 @@ function recalcularTotais(parcelas, valoresDescontados, config, datasVencimento)
     const valorLiquido = totalDescontado - iofTotal;
 
     // Aplica o ptac apenas se a tabela for PARANÁ
-    const tac = config.tabela === "PARANÁ" ? aplicarAlíquotaPtac(valorLiquido) : config.calcTac(valorLiquido);
-
+    const tac = config.tabela === "PARANÁ" ? aplicarAlíquotaPtac(valorLiquido) : config.calcTac(valorLiquido, totalDescontado);
+    console.log(config.calcTac(valorLiquido, totalDescontado))
+    console.log("emissão " + totalDescontado)
+    console.log("valor "+tac)
     // Calculando o valor da meta
     const valorMeta = config.calcMeta(tac);
-    const f = tac.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-    console.log(f)
-    console.log(brl(valorMeta))
     document.querySelector(".col-middle").innerHTML = `
       <h2>Resultados:</h2>
       <div class="resultado"><p>Valor meta: ${brl(valorMeta)}</p></div>
