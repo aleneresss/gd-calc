@@ -66,9 +66,10 @@ function capturarParcelas() {
 
 function exibirParcelas(parcelas, datasStr, desagios, valoresDescontados, taxaAnual, taxaDia, datasVencimento, config) {
     const listaParcelas = document.getElementById("listaParcelas");
+    const formatdata = datasVencimento.map(date => new Date(date).toLocaleDateString("en-GB"));
     listaParcelas.innerHTML = parcelas.map((p, i) => `
       <li>
-        <span>Parcela ${i+1}: ${brl(p)} - Vencimento: ${datasStr[i] || "N/A"}</span>
+        <span>Parcela ${i+1}: ${brl(p)} - Vencimento: ${formatdata[i] || "N/A"}</span>
         <label class="switch">
           <input type="checkbox" checked data-index="${i}">
           <span class="slider"></span>
