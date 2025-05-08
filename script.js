@@ -1,6 +1,7 @@
 const tabelasConfig = {
     "PARANÁ TAC": { taxa: 1.79, calcTac: (v) => aplicarAlíquotaPtac(v), calcMeta: (t) => t * 0.6956 }, 
     "PARANÁ": { taxa: 1.79, calcTac: (v) => v, calcMeta: (t) => t * 0.6956 },
+    "PARANÁ SEG": { taxa: 1.79, calcTac: (v, e) => Math.max(v-(e / (100/6)), v - 600), calcMeta: (t) => t * 0.6956 },
     "SENNA": { taxa: 1.8, calcTac: (v, e) => v - (e / (100/22)), calcMeta: (t) => t * 1.10 },
     "PRIME": { taxa: 1.8, calcTac: (v) => v - 70, calcMeta: (t) => t * 0.68 },
     "MONACO": { taxa: 1.8, calcTac: (v) => v * 0.815, calcMeta: (t) => t * 0.90 },
@@ -41,6 +42,31 @@ function capturarParcelas() {
     const datasVencimentoStr = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/g) || [];
     const datasVencimento = datasVencimentoStr.map(parseDataString);
 
+    const aliquota = [
+        { min: 20000.01, max: Infinity, taxa: 0.05, adicional: 2900 },
+        { min: 15000.01, max: 20000, taxa: 0.1, adicional: 1900 },
+        { min: 10000.01, max: 15000, taxa: 0.15, adicional: 1150 },
+        { min: 5000.01, max: 10000, taxa: 0.2, adicional: 650 },
+        { min: 1000.01, max: 5000, taxa: 0.3, adicional: 150 },
+        { min: 500.01, max: 1000, taxa: 0.4, adicional: 50 },
+        { min: -Infinity, max: 500, taxa: 0.5, adicional: 0 },
+    ];
+    let saldoRestante = valores[valores.length-1]
+    if (valores.length-1 < 10 && document.getElementById("newp").checked) {
+        for (let i = 0; i < 10; i++) {
+        const regra = aliquota.find(r => saldoRestante > r.min && saldoRestante <= r.max);
+        const valorParcela = saldoRestante * regra.taxa + regra.adicional;
+        if (valorParcela < 0.01) break;
+        valores.push(valorParcela)
+        saldoRestante -= valorParcela;
+        let novadata = new Date(datasVencimento[datasVencimento.length - 1]);
+        novadata.setFullYear(novadata.getFullYear() + 1);
+        datasVencimento.push(novadata)
+        }
+    }
+
+    console.log([valores.length-1])
+
     if (!valores.length) {
         alert("Nenhum valor válido encontrado!");
         return;
@@ -54,17 +80,13 @@ function capturarParcelas() {
     // Exibir resultados
     exibirParcelas(
         valores.slice(0, 10),
-        datasVencimentoStr.slice(0, 10),
-        desagios.slice(0, 10),
         valoresDescontados.slice(0, 10),
-        calcularTaxaAnual(config.taxa / 100),
-        taxaDia,
         datasVencimento.slice(0, 10),
         config
     );
 }
 
-function exibirParcelas(parcelas, datasStr, desagios, valoresDescontados, taxaAnual, taxaDia, datasVencimento, config) {
+function exibirParcelas(parcelas, valoresDescontados, datasVencimento, config) {
     const listaParcelas = document.getElementById("listaParcelas");
     const formatdata = datasVencimento.map(date => new Date(date).toLocaleDateString("en-GB"));
     listaParcelas.innerHTML = parcelas.map((p, i) => `
