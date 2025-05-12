@@ -9,15 +9,14 @@ const tabelasConfig = {
     "LIGHT": { taxa: 1.8, calcTac: (v) => v, calcMeta: (t) => t * 0.39 }
 };
 
-// Funções auxiliares
 const calcularTaxaAnual = (taxaMensal) => Math.pow(1 + taxaMensal, 12) - 1;
 const calcularTaxaDia = (taxaAnual) => Math.pow(1 + taxaAnual, 1 / 360) - 1;
 
 function parseDataString(dataStr) {
     const parts = dataStr.split('/').map(Number);
     return parts.length === 3 
-      ? new Date(parts[2], parts[1] - 1, parts[0]) // Formato dd/mm/aaaa
-      : new Date(parts[1], parts[0], 1); // Formato mm/aaaa (primeiro dia do mês seguinte)
+      ? new Date(parts[2], parts[1] - 1, parts[0])
+      : new Date(parts[1], parts[0], 1);
 }
 
 function calcularDesagios(datasVencimento, taxaDia) {
@@ -28,14 +27,14 @@ function calcularDesagios(datasVencimento, taxaDia) {
     });
 }
 
-// Função principal
+
 function capturarParcelas() {
-    // Obter dados de entrada
+
     const inputValores = document.getElementById("parcelasInput").value;
     const tabelaSelecionada = document.getElementById("tabela").value;
     const config = tabelasConfig[tabelaSelecionada] || tabelasConfig["PARANÁ"];
 
-    // Extrair valores e datas
+
     const valores = (inputValores.match(/R\$\s*\d{1,6}(?:\.\d{3})*(?:,\d{2})?/g) || [])
       .map(v => parseFloat(v.replace(/R\$|\s|\./g, '').replace(',', '.')));
 
@@ -72,12 +71,12 @@ function capturarParcelas() {
         return;
     }
 
-    // Cálculos financeiros
+
     const taxaDia = calcularTaxaDia(calcularTaxaAnual(config.taxa / 100));
     const desagios = calcularDesagios(datasVencimento, taxaDia);
     const valoresDescontados = valores.map((v, i) => v / (desagios[i] || 1));
 
-    // Exibir resultados
+
     exibirParcelas(
         valores.slice(0, 10),
         valoresDescontados.slice(0, 10),
@@ -99,7 +98,7 @@ function exibirParcelas(parcelas, valoresDescontados, datasVencimento, config) {
       </li>
     `).join('');
 
-    // Configurar eventos dos checkboxes
+
     document.querySelectorAll('.switch input').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const index = parseInt(this.dataset.index);
@@ -123,7 +122,7 @@ function recalcularTotais(parcelas, valoresDescontados, config, datasVencimento)
 
     const totalDescontado = valoresSelecionados.reduce((a, b) => a + b, 0);
 
-    // Cálculo correto do IOF
+
     const iofTotal = valoresSelecionados.reduce((total, valor, i) => {
         const hoje = new Date();
         const dataVenc = datasSelecionadas[i];
@@ -137,12 +136,12 @@ function recalcularTotais(parcelas, valoresDescontados, config, datasVencimento)
 
     const valorLiquido = totalDescontado - iofTotal;
 
-    // Aplica o ptac apenas se a tabela for PARANÁ
+
     const tac = config.tabela === "PARANÁ" ? aplicarAlíquotaPtac(valorLiquido) : config.calcTac(valorLiquido, totalDescontado);
     console.log(config.calcTac(valorLiquido, totalDescontado))
     console.log("emissão " + totalDescontado)
     console.log("valor "+tac)
-    // Calculando o valor da meta
+
     const valorMeta = config.calcMeta(tac);
     document.querySelector(".col-middle").innerHTML = `
       <h2>Resultados:</h2>
@@ -153,7 +152,7 @@ function recalcularTotais(parcelas, valoresDescontados, config, datasVencimento)
     `;
 }
 
-// Função para aplicar a alíquota do ptac
+
 function aplicarAlíquotaPtac(valor) {
     const ptac = [
         { min: 2501.00, max: Infinity, tac: 0.05 },
@@ -161,13 +160,12 @@ function aplicarAlíquotaPtac(valor) {
         { min: -Infinity, max: 500.00, tac: 0.1 },
     ];
 
-    // Encontra o tac correspondente ao valor
     const faixa = ptac.find(p => valor >= p.min && valor <= p.max);
 
     if (faixa) {
-        return valor - valor * faixa.tac;  // Aplica a alíquota (tac) encontrada
+        return valor - valor * faixa.tac;
     }
-    return valor;  // Caso não encontre uma faixa válida, retorna o valor original
+    return valor;
 }
 
 
