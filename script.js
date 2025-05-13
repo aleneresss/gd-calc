@@ -51,7 +51,7 @@ function capturarParcelas() {
         { min: -Infinity, max: 500, taxa: 0.5, adicional: 0 },
     ];
     let saldoRestante = valores[valores.length-1]
-    if (valores.length < 10 && document.getElementById("newp").checked && valores[valores.length-1] < 10.00) {
+    if (valores.length < 10 && document.getElementById("newp").checked && valores[valores.length-1] < 20) {
         for (let i = 0; i < 10; i++) {
         const regra = aliquota.find(r => saldoRestante > r.min && saldoRestante <= r.max);
         const valorParcela = saldoRestante * regra.taxa + regra.adicional;
