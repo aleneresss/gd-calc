@@ -1,6 +1,6 @@
 const tabelasConfig = {
-    "PARANÁ TAC": { taxa: 1.79, calcTac: (v) => aplicarAlíquotaPtac(v), calcMeta: (t) => t * 0.6956 }, 
-    "PARANÁ": { taxa: 1.79, calcTac: (v) => v, calcMeta: (t) => t * 0.6956 },
+    "PARANÁ TAC": { taxa: 1.79, calcTac: (v) => aplicarAlíquotaPtac(v), calcMeta: (t) => t * 0.7825 }, 
+    "PARANÁ": { taxa: 1.79, calcTac: (v) => v, calcMeta: (t) => t * 0.7825 },
     "PARANÁ SEG": { taxa: 1.79, calcTac: (v, e) => Math.max(v-(e / (100/6)), v - 600), calcMeta: (t) => t * 0.8 },
     "SENNA": { taxa: 1.8, calcTac: (v, e) => v - (e / (100/22)), calcMeta: (t) => t * 1.10 },
     "PRIME": { taxa: 1.8, calcTac: (v) => v - 70, calcMeta: (t) => t * 0.68 },
