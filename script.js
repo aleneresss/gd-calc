@@ -141,13 +141,14 @@ function recalcularTotais(parcelas, valoresDescontados, config, datasVencimento)
     console.log(config.calcTac(valorLiquido, totalDescontado))
     console.log("emissão " + totalDescontado)
     console.log("valor "+tac)
-
+    const antecipado = parcelasSelecionadas.reduce((a, b) => a + b, 0)
     const valorMeta = config.calcMeta(tac);
     document.querySelector(".col-middle").innerHTML = `
       <h2>Resultados:</h2>
       <div class="resultado"><p>Valor meta: ${brl(valorMeta)}</p></div>
       <div class="resultado"><p>IOF total: ${brl(iofTotal)}</p></div>
-      <div class="total"><p>Total antecipado: ${brl(parcelasSelecionadas.reduce((a, b) => a + b, 0))}</p></div>
+      <div class="total"><p>Total antecipado: ${brl(antecipado)}</p></div>
+      <div class="resultado"><p>Juros: ${brl(antecipad - tac)}</p></div>
       <div class="liberado"><p><big>Valor Liberado: <strong>${brl(tac)}</strong></big></p></div>
     `;
 }
