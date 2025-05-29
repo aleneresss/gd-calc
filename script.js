@@ -148,7 +148,7 @@ function recalcularTotais(parcelas, valoresDescontados, config, datasVencimento)
       <div class="resultado"><p>Valor meta: ${brl(valorMeta)}</p></div>
       <div class="resultado"><p>IOF total: ${brl(iofTotal)}</p></div>
       <div class="total"><p>Total antecipado: ${brl(antecipado)}</p></div>
-      <div class="resultado"><p>Juros: ${brl(antecipad - tac)}</p></div>
+      <div class="resultado"><p>Juros: ${brl(antecipado - tac)}</p></div>
       <div class="liberado"><p><big>Valor Liberado: <strong>${brl(tac)}</strong></big></p></div>
     `;
 }
