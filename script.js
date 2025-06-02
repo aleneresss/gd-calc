@@ -30,9 +30,10 @@ const calcularTaxaDia = (taxaAnual) => Math.pow(1 + taxaAnual, 1 / 360) - 1;
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = checkboxId;
+    checkbox.checked="true"
     row.style.display = 'flex';
     row.style.alignItems = 'baseline';
-
+    
     row.appendChild(label);
     row.appendChild(checkbox);
 
