@@ -79,31 +79,6 @@ function capturarParcelas() {
     const datasVencimentoStr = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/g) || [];
     const datasVencimento = datasVencimentoStr.map(parseDataString);
 
-    const aliquota = [
-        { min: 20000.01, max: Infinity, taxa: 0.05, adicional: 2900 },
-        { min: 15000.01, max: 20000, taxa: 0.1, adicional: 1900 },
-        { min: 10000.01, max: 15000, taxa: 0.15, adicional: 1150 },
-        { min: 5000.01, max: 10000, taxa: 0.2, adicional: 650 },
-        { min: 1000.01, max: 5000, taxa: 0.3, adicional: 150 },
-        { min: 500.01, max: 1000, taxa: 0.4, adicional: 50 },
-        { min: -Infinity, max: 500, taxa: 0.5, adicional: 0 },
-    ];
-    let saldoRestante = valores[valores.length-1]
-    if (valores.length < 10 && document.getElementById("newp").checked && valores[valores.length-1] < 20) {
-        for (let i = 0; i < 10; i++) {
-            const regra = aliquota.find(r => saldoRestante > r.min && saldoRestante <= r.max);
-            const valorParcela = saldoRestante * regra.taxa + regra.adicional;
-            if (valorParcela < 0.01) break;
-            valores.push(valorParcela)
-            saldoRestante -= valorParcela;
-            let novadata = new Date(datasVencimento[datasVencimento.length - 1]);
-            novadata.setFullYear(novadata.getFullYear() + 1);
-            datasVencimento.push(novadata)
-        }
-    }
-
-    console.log([valores.length-1])
-
     if (!valores.length) {
         alert("Nenhum valor válido encontrado!");
         return;
@@ -209,6 +184,11 @@ function aplicarAlíquotaPtac(valor, emissão) {
         }
     return valor - seguro - tac
 }
+
+function meta(t){
+    return document.getElementById('seguro').checked ? t * 0.8 : t * 0.7825;
+}
+
 
 function brl(float) {
         let brl = float.toLocaleString('pt-br',{style: 'currency', currency: 'brl'});
