@@ -202,8 +202,7 @@ function aplicarAlíquotaPtac(valor, emissão) {
     let seguro = 0
     if (document.getElementById('seguro').checked){
             seguro = valor - Math.max(valor -(emissão / (100/6)), valor - 600)
-            console.log(emissão)
-        }
+    }
     if (document.getElementById('tac').checked){
             tac = valor / faixa.tac
         }
