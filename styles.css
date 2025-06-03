@@ -337,3 +337,7 @@ strong {
     box-shadow: 0 0 15px rgba(157, 0, 255, 0.3);
     transition: box-shadow 0.3s ease;
 }
+
+#seguro, #tac {
+  accent-color: #5e009c;
+}
