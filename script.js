@@ -40,16 +40,27 @@ const calcularTaxaDia = (taxaAnual) => Math.pow(1 + taxaAnual, 1 / 360) - 1;
   }
 
   function updateCheckboxes() {
-    container.innerHTML = ''; // Limpa checkboxes anteriores
+    container.innerHTML = '';
 
     if (select.value === 'PARANÁ') {
       container.appendChild(createCheckboxRow('SEGURO:', 'seguro'));
       container.appendChild(createCheckboxRow('APLICAR TAC:', 'tac'));
     }
+      container.appendChild(createCheckboxRow('NOVAS PARCELAS:', 'np'))
   }
 
   select.addEventListener('change', updateCheckboxes);
   window.addEventListener('DOMContentLoaded', updateCheckboxes);
+
+const aliquota = [
+        { min: 20000.01, max: Infinity, taxa: 0.05, adicional: 2900 },
+        { min: 15000.01, max: 20000, taxa: 0.1, adicional: 1900 },
+        { min: 10000.01, max: 15000, taxa: 0.15, adicional: 1150 },
+        { min: 5000.01, max: 10000, taxa: 0.2, adicional: 650 },
+        { min: 1000.01, max: 5000, taxa: 0.3, adicional: 150 },
+        { min: 500.01, max: 1000, taxa: 0.4, adicional: 50 },
+        { min: -Infinity, max: 500, taxa: 0.5, adicional: 0 },
+    ];
 
 function parseDataString(dataStr) {
     const parts = dataStr.split('/').map(Number);
@@ -79,11 +90,28 @@ function capturarParcelas() {
     const datasVencimentoStr = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/g) || [];
     const datasVencimento = datasVencimentoStr.map(parseDataString);
 
-    if (!valores.length) {
-        alert("Nenhum valor válido encontrado!");
-        return;
-    }
+    let saldoRestante = valores[valores.length-1];
+    const parcelasA = [];
 
+    if (document.getElementById('np').checked) {
+      for (let i = 0; i < 15; i++) {
+          const regra = aliquota.find(r => saldoRestante > r.min && saldoRestante <= r.max);
+          const valorParcela1 = saldoRestante * regra.taxa + regra.adicional;
+          parcelasA.push(valorParcela1);
+          saldoRestante -= valorParcela1;
+          valores.push(valorParcela1)
+          datasVencimento.push(calcularDatasVencimento(datasVencimento[datasVencimento.length - 1]))
+      }
+    };
+    
+    console.log(datasVencimento[datasVencimento.length - 1]);
+
+    console.log("Parcelas calculadas:", parcelasA);
+
+    if (!valores.length) {
+        alert("Nenhum valor válido encontrado!");''
+        return;''
+    }
 
     const taxaDia = calcularTaxaDia(calcularTaxaAnual(config.taxa / 100));
     const desagios = calcularDesagios(datasVencimento, taxaDia);
@@ -91,9 +119,9 @@ function capturarParcelas() {
 
 
     exibirParcelas(
-        valores.slice(0, 10),
-        valoresDescontados.slice(0, 10),
-        datasVencimento.slice(0, 10),
+        valores.slice(0, 15),
+        valoresDescontados.slice(0, 15),
+        datasVencimento.slice(0, 15),
         config
     );
 }
@@ -193,4 +221,18 @@ function meta(t){
 function brl(float) {
         let brl = float.toLocaleString('pt-br',{style: 'currency', currency: 'brl'});
         return brl
+}
+
+function calcularDatasVencimento(lastdate) {
+    const mesAniversario = lastdate.getMonth(); // 0-11
+    let anoAtual = lastdate.getFullYear();
+
+    // Se a última data já passou do mês de aniversário neste ano, começa no próximo ano
+    if (lastdate.getMonth() >= mesAniversario && lastdate.getDate() > 1) {
+        anoAtual++;
+    }
+
+    const dataVencimento = new Date(anoAtual, mesAniversario, 1);
+
+    return dataVencimento;
 }
