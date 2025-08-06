@@ -89,8 +89,6 @@ function capturarParcelas() {
     const datasVencimentoStr = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/g) || [];
     const datasVencimento = datasVencimentoStr.map(parseDataString);
 
-    console.log("Parcelas calculadas:", parcelasA);
-
     if (!valores.length) {
         alert("Nenhum valor válido encontrado!");''
         return;''
@@ -205,5 +203,6 @@ function brl(float) {
         let brl = float.toLocaleString('pt-br',{style: 'currency', currency: 'brl'});
         return brl
 }
+
 
 
