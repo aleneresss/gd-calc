@@ -89,13 +89,6 @@ function capturarParcelas() {
     const datasVencimentoStr = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/g) || [];
     const datasVencimento = datasVencimentoStr.map(parseDataString);
 
-    let saldoRestante = valores[valores.length-1];
-    const parcelasA = [];
-
-    
-    
-    console.log(datasVencimento[datasVencimento.length - 1]);
-
     console.log("Parcelas calculadas:", parcelasA);
 
     if (!valores.length) {
@@ -211,20 +204,6 @@ function meta(t){
 function brl(float) {
         let brl = float.toLocaleString('pt-br',{style: 'currency', currency: 'brl'});
         return brl
-}
-
-function calcularDatasVencimento(lastdate) {
-    const mesAniversario = lastdate.getMonth(); // 0-11
-    let anoAtual = lastdate.getFullYear();
-
-    // Se a última data já passou do mês de aniversário neste ano, começa no próximo ano
-    if (lastdate.getMonth() >= mesAniversario && lastdate.getDate() > 1) {
-        anoAtual++;
-    }
-
-    const dataVencimento = new Date(anoAtual, mesAniversario, 1);
-
-    return dataVencimento;
 }
 
 
