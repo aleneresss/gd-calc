@@ -46,7 +46,6 @@ const calcularTaxaDia = (taxaAnual) => Math.pow(1 + taxaAnual, 1 / 360) - 1;
       container.appendChild(createCheckboxRow('SEGURO:', 'seguro'));
       container.appendChild(createCheckboxRow('APLICAR TAC:', 'tac'));
     }
-      container.appendChild(createCheckboxRow('NOVAS PARCELAS:', 'np'))
   }
 
   select.addEventListener('change', updateCheckboxes);
@@ -236,3 +235,4 @@ function calcularDatasVencimento(lastdate) {
 
     return dataVencimento;
 }
+
