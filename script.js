@@ -92,16 +92,7 @@ function capturarParcelas() {
     let saldoRestante = valores[valores.length-1];
     const parcelasA = [];
 
-    if (document.getElementById('np').checked) {
-      for (let i = 0; i < 15; i++) {
-          const regra = aliquota.find(r => saldoRestante > r.min && saldoRestante <= r.max);
-          const valorParcela1 = saldoRestante * regra.taxa + regra.adicional;
-          parcelasA.push(valorParcela1);
-          saldoRestante -= valorParcela1;
-          valores.push(valorParcela1)
-          datasVencimento.push(calcularDatasVencimento(datasVencimento[datasVencimento.length - 1]))
-      }
-    };
+    
     
     console.log(datasVencimento[datasVencimento.length - 1]);
 
@@ -235,4 +226,5 @@ function calcularDatasVencimento(lastdate) {
 
     return dataVencimento;
 }
+
 
