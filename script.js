@@ -40,12 +40,14 @@ const calcularTaxaDia = (taxaAnual) => Math.pow(1 + taxaAnual, 1 / 360) - 1;
   }
 
   function updateCheckboxes() {
+    container.innerHTML = ''; // Limpa checkboxes anteriores
     container.innerHTML = '';
 
     if (select.value === 'PARANÁ') {
       container.appendChild(createCheckboxRow('SEGURO:', 'seguro'));
       container.appendChild(createCheckboxRow('APLICAR TAC:', 'tac'));
     }
+      container.appendChild(createCheckboxRow('NOVAS PARCELAS:', 'np'))
   }
 
   select.addEventListener('change', updateCheckboxes);
@@ -89,10 +91,29 @@ function capturarParcelas() {
     const datasVencimentoStr = inputValores.match(/(\d{2}\/\d{2}\/\d{4})|(\d{2}\/\d{4})/g) || [];
     const datasVencimento = datasVencimentoStr.map(parseDataString);
 
+    let saldoRestante = valores[valores.length-1];
+    const parcelasA = [];
+
+    if (document.getElementById('np').checked) {
+      for (let i = 0; i < 15; i++) {
+          const regra = aliquota.find(r => saldoRestante > r.min && saldoRestante <= r.max);
+          const valorParcela1 = saldoRestante * regra.taxa + regra.adicional;
+          parcelasA.push(valorParcela1);
+          saldoRestante -= valorParcela1;
+          valores.push(valorParcela1)
+          datasVencimento.push(calcularDatasVencimento(datasVencimento[datasVencimento.length - 1]))
+      }
+    };
+    
+    console.log(datasVencimento[datasVencimento.length - 1]);
+
+    console.log("Parcelas calculadas:", parcelasA);
+
     if (!valores.length) {
         alert("Nenhum valor válido encontrado!");''
         return;''
     }
+
 
     const taxaDia = calcularTaxaDia(calcularTaxaAnual(config.taxa / 100));
     const desagios = calcularDesagios(datasVencimento, taxaDia);
@@ -204,5 +225,16 @@ function brl(float) {
         return brl
 }
 
+function calcularDatasVencimento(lastdate) {
+    const mesAniversario = lastdate.getMonth(); // 0-11
+    let anoAtual = lastdate.getFullYear();
 
+    // Se a última data já passou do mês de aniversário neste ano, começa no próximo ano
+    if (lastdate.getMonth() >= mesAniversario && lastdate.getDate() > 1) {
+        anoAtual++;
+    }
 
+    const dataVencimento = new Date(anoAtual, mesAniversario, 1);
+
+    return dataVencimento;
+}
