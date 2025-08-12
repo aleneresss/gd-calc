@@ -40,7 +40,6 @@ const calcularTaxaDia = (taxaAnual) => Math.pow(1 + taxaAnual, 1 / 360) - 1;
   }
 
   function updateCheckboxes() {
-    container.innerHTML = ''; // Limpa checkboxes anteriores
     container.innerHTML = '';
 
     if (select.value === 'PARANÁ') {
@@ -104,7 +103,7 @@ function capturarParcelas() {
           datasVencimento.push(calcularDatasVencimento(datasVencimento[datasVencimento.length - 1]))
       }
     };
-    
+
     console.log(datasVencimento[datasVencimento.length - 1]);
 
     console.log("Parcelas calculadas:", parcelasA);
@@ -113,7 +112,6 @@ function capturarParcelas() {
         alert("Nenhum valor válido encontrado!");''
         return;''
     }
-
 
     const taxaDia = calcularTaxaDia(calcularTaxaAnual(config.taxa / 100));
     const desagios = calcularDesagios(datasVencimento, taxaDia);
